@@ -1,0 +1,37 @@
+INNER JOIN
+
+select count(*) 
+from newspaper 
+join online on newspaper.id = online.id;
+
+
+LEFT JOIN
+
+select * from newspaper left join online on newspaper.id = online.id where online.id is null;
+
+CROSS JOIN  
+
+select month, count(*) 
+from newspaper 
+cross join months 
+where start_month <= month and end_month >= month 
+group by month;
+
+UNION
+
+select * 
+from online 
+union 
+select * 
+from newspaper
+
+WITH
+
+with previous_query as (
+  SELECT customer_id,
+   COUNT(subscription_id) AS 'subscriptions'
+FROM orders
+GROUP BY customer_id)
+select customers.customer_name, previous_query.subscriptions 
+from previous_query 
+join customers on previous_query.customer_id = customers.customer_id;
